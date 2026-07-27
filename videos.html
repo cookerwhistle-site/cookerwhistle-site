@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CookerWhistle — Pressure Cooker Recipe Videos</title>
+<meta name="description" content="Watch pressure cooker recipe videos for Indian dishes — rajma, chicken curry, biryani, dal tadka, khichdi, Kerala and regional recipes, and more.">
+<link rel="canonical" href="https://cookerwhistle.com/videos.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="CookerWhistle — Pressure Cooker Recipe Videos">
+<meta property="og:description" content="Watch pressure cooker recipe videos for Indian dishes — rajma, chicken curry, biryani, Kerala and regional recipes.">
+<meta property="og:url" content="https://cookerwhistle.com/videos.html">
+<meta property="og:image" content="https://cookerwhistle.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CookerWhistle — Pressure Cooker Recipe Videos">
+<meta name="twitter:description" content="Watch pressure cooker recipe videos for Indian dishes.">
+<meta name="twitter:image" content="https://cookerwhistle.com/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="brand"><span class="brand-dot"></span>CookerWhistle</div>
+    <nav>
+      <a href="index.html">Whistle Bank</a>
+      <a href="videos.html" class="active">Videos</a>
+    </nav>
+  </div>
+  <div class="page-hero">
+    <div class="hero-eyebrow">Watch it done</div>
+    <h1>See these dishes cooked, whistle by whistle</h1>
+    <p>A hand-picked shelf of pressure cooker recipe videos from YouTube — for when a whistle count needs a visual to go with it.</p>
+    <div class="search-wrap">
+      <input id="search" type="text" placeholder="Search a dish — try 'mandi' or 'kadala'" autocomplete="off">
+    </div>
+  </div>
+  <div class="filters-row">
+    <div class="filters" id="filters"></div>
+    <select class="region-select" id="region-select"></select>
+  </div>
+</header>
+
+<main>
+  <div class="grid-meta">
+    <h2>The video shelf</h2>
+    <div id="count-label" class="mono"></div>
+  </div>
+  <div class="video-grid" id="grid"></div>
+
+  <div class="submit-note">
+    <h3 style="margin-bottom:8px;">Made a video worth adding?</h3>
+    <p>This is a small, hand-picked list to start. If you've got a pressure cooker recipe video on YouTube you'd like featured here, reach out and we'll take a look.</p>
+  </div>
+</main>
+
+<footer>
+  <div>CookerWhistle.com — a hobby project, not a recipe book. All videos belong to their original creators on YouTube.</div>
+  <div>Built by <a href="https://www.instagram.com/jstnthormallu" target="_blank" rel="noopener" style="color:#E4B94F;">@jstnthormallu</a>, one dish at a time.</div>
+</footer>
+
+<script>
+const VIDEOS = [
+  {
+    id: "yLZVOBSpeIk",
+    title: "The quickest rajma recipe — everything goes straight into the cooker",
+    type: "Veg",
+    region: "North Indian",
+    channel: "Sanjyot Keer",
+    whistles: 6
+  },
+  {
+    id: "7zX_Ufcfj3s",
+    title: "Pressure cooker chicken curry simmered in coconut milk",
+    type: "Non-Veg",
+    region: "North Indian",
+    channel: "Sanjeev Kapoor Khazana",
+    whistles: 3
+  },
+  {
+    id: "StByQdzsyy4",
+    title: "Dum biryani made entirely in a pressure cooker",
+    type: "Non-Veg",
+    region: "North Indian",
+    channel: "Home cook upload",
+    whistles: 1
+  },
+  {
+    id: "Ogf8bfFMM6E",
+    title: "Dal tadka — Instant Pot and stovetop pressure cooker method",
+    type: "Veg",
+    region: "North Indian",
+    channel: "Piping Pot Curry",
+    whistles: 3
+  },
+  {
+    id: "CF00AwXuV0c",
+    title: "Masala khichdi loaded with lentils, rice, and vegetables",
+    type: "Veg",
+    region: "Pan-Indian",
+    channel: "Home cook upload",
+    whistles: 3
+  },
+  {
+    id: "uKUvtyjw8R0",
+    title: "Chole masala (chana masala) made start to finish in a pressure cooker",
+    type: "Veg",
+    region: "North Indian",
+    channel: "Kabita's Kitchen",
+    whistles: 5
+  },
+  {
+    id: "8Vj1aUS3b_0",
+    title: "Kerala style chicken curry (nadan kozhi curry) made in a pressure cooker",
+    type: "Non-Veg",
+    region: "Kerala",
+    channel: "Garam Masala Cooking",
+    whistles: 3
+  },
+  {
+    id: "wjBL9_sdlOY",
+    title: "Kadala curry — Kerala style black chickpeas, the classic puttu side",
+    type: "Veg",
+    region: "Kerala",
+    channel: "WhiskAffair",
+    whistles: 4
+  },
+  {
+    id: "JFXnk2d0OP0",
+    title: "Kerala style beef curry cooked in a pressure cooker",
+    type: "Non-Veg",
+    region: "Kerala",
+    channel: "Kunjaminas Kitchen",
+    whistles: 6
+  },
+  {
+    id: "lgNAUMbZP7s",
+    title: "Kappa puzhukku — tapioca cooked soft in a pressure cooker, then mashed with coconut",
+    type: "Veg",
+    region: "Kerala",
+    channel: "Home cook upload",
+    whistles: 2
+  },
+  {
+    id: "rx4GkGonZN8",
+    title: "Kerala fish curry (meen curry) in a tangy, tamarind-based gravy",
+    type: "Non-Veg",
+    region: "Kerala",
+    channel: "Indian Healthy Recipes",
+    whistles: 1
+  },
+  {
+    id: "wIQuyWGYJdE",
+    title: "How to cook Kerala matta rice in a pressure cooker",
+    type: "Veg",
+    region: "Kerala",
+    channel: "Home cook upload",
+    whistles: 4
+  },
+  {
+    id: "tysNFFhctgQ",
+    title: "Avial (aviyal) made easy in a pressure cooker",
+    type: "Veg",
+    region: "Kerala",
+    channel: "Home cook upload",
+    whistles: 1
+  },
+  {
+    id: "dWs6NFM2Myg",
+    title: "Varutharacha sambar — Kerala style sambar with roasted coconut",
+    type: "Veg",
+    region: "Kerala",
+    channel: "Home cook upload",
+    whistles: 3
+  },
+  {
+    id: "i0SauKgFOW0",
+    title: "Pumpkin erissery with moong dal, cooked in a pressure cooker",
+    type: "Veg",
+    region: "Kerala",
+    channel: "Home cook upload",
+    whistles: 2
+  },
+  {
+    id: "7NH9F74bqew",
+    title: "Kerala style duck curry (nadan tharavu curry) in a coconut milk gravy",
+    type: "Non-Veg",
+    region: "Kerala",
+    channel: "Home cook upload",
+    whistles: 5
+  },
+  {
+    id: "pRughSKa-Xk",
+    title: "Kerala prawn curry (chemmeen curry) with coconut oil and spices",
+    type: "Non-Veg",
+    region: "Kerala",
+    channel: "WhiskAffair",
+    whistles: 0
+  },
+  {
+    id: "xrfTYG77ACY",
+    title: "Kerala style mutton curry with coconut and curry leaves",
+    type: "Non-Veg",
+    region: "Kerala",
+    channel: "Home cook upload",
+    whistles: 6
+  },
+  {
+    id: "EjDGNqHFviA",
+    title: "Cooker mandi — chicken mandi recipe made in a pressure cooker (Malayalam)",
+    type: "Non-Veg",
+    region: "Arabic (Kerala Style)",
+    channel: "SHASS WORLD",
+    whistles: 1
+  },
+  {
+    id: "3ph2Yv2tuOE",
+    title: "20-minute pressure cooker chicken majboos (Malayalam)",
+    type: "Non-Veg",
+    region: "Arabic (Kerala Style)",
+    channel: "Ayesha's Kitchen",
+    whistles: 1
+  },
+  {
+    id: "hQZaukf_bZc",
+    title: "Pressure cooker chicken madhbi, finished in banana leaf (Malayalam)",
+    type: "Non-Veg",
+    region: "Arabic (Kerala Style)",
+    channel: "Home cook upload",
+    whistles: 1
+  },
+  {
+    id: "oIeuWGHVH94",
+    title: "Beef biryani made in a pressure cooker — a quick bachelor's version",
+    type: "Non-Veg",
+    region: "Arabic (Kerala Style)",
+    channel: "Home cook upload",
+    whistles: 3
+  },
+  {
+    id: "m2tnnZIpH-E",
+    title: "Chicken kabsa recipe in Malayalam, with homemade kabsa masala",
+    type: "Non-Veg",
+    region: "Arabic (Kerala Style)",
+    channel: "Home cook upload",
+    whistles: 1
+  },
+  {
+    id: "HK060uuS66c",
+    title: "Thareed (fareed) — Ramadan chicken stew recipe in Malayalam",
+    type: "Non-Veg",
+    region: "Arabic (Kerala Style)",
+    channel: "Home cook upload",
+    whistles: 3
+  },
+  {
+    id: "88d3NExtyMc",
+    title: "Boiling eggs in a pressure cooker — quickest method, just two whistles",
+    type: "Egg",
+    region: "Pan-Indian",
+    channel: "Home cook upload",
+    whistles: 2
+  },
+  {
+    id: "kVMoGDaW33w",
+    title: "How many whistles does it take to boil potatoes in a pressure cooker?",
+    type: "Veg",
+    region: "Pan-Indian",
+    channel: "Home cook upload",
+    whistles: 3
+  },
+  {
+    id: "piEiHa-gaTc",
+    title: "Butter chicken made in a stovetop pressure cooker in 30 minutes",
+    type: "Non-Veg",
+    region: "North Indian",
+    channel: "Home cook upload",
+    whistles: 0
+  },
+  {
+    id: "CrGpv_BgFE0",
+    title: "Paneer butter masala recipe using a pressure cooker",
+    type: "Veg",
+    region: "North Indian",
+    channel: "Home cook upload",
+    whistles: 0
+  },
+  {
+    id: "G8yC4gvn6MU",
+    title: "Street-style pav bhaji made in a pressure cooker",
+    type: "Veg",
+    region: "Maharashtra",
+    channel: "Home cook upload",
+    whistles: 3
+  },
+  {
+    id: "H5-3DPofaA0",
+    title: "Matki ussal — Maharashtrian sprouted moth beans in a pressure cooker",
+    type: "Veg",
+    region: "Maharashtra",
+    channel: "Two Sleevers",
+    whistles: 3
+  },
+  {
+    id: "RJSzAgYb2_k",
+    title: "Bisi bele bath made in a pressure cooker",
+    type: "Veg",
+    region: "Karnataka",
+    channel: "Home cook upload",
+    whistles: 3
+  },
+  {
+    id: "zFOgPZUpmds",
+    title: "Ven pongal — South Indian breakfast dish, pressure cooker method",
+    type: "Veg",
+    region: "Tamil Nadu",
+    channel: "Home cook upload",
+    whistles: 3
+  },
+  {
+    id: "80_2APN3gs0",
+    title: "Gujarati dal — sweet and tangy khatti meethi dal recipe",
+    type: "Veg",
+    region: "Gujarat",
+    channel: "Home cook upload",
+    whistles: 3
+  },
+  {
+    id: "POvfezdZiOo",
+    title: "Traditional Gujarati undhiyu made in a pressure cooker",
+    type: "Veg",
+    region: "Gujarat",
+    channel: "Archana's Kitchen",
+    whistles: 2
+  },
+  {
+    id: "rjzvAXnvS0Q",
+    title: "Quick and easy egg curry (egg masala) made in a pressure cooker",
+    type: "Egg",
+    region: "Pan-Indian",
+    channel: "Home cook upload",
+    whistles: 1
+  },
+  {
+    id: "okIboExzPgY",
+    title: "Easy egg biryani made in a pressure cooker",
+    type: "Egg",
+    region: "Pan-Indian",
+    channel: "Home cook upload",
+    whistles: 1
+  },
+  {
+    id: "Cz8QaYUXUD8",
+    title: "Thick and creamy rice kheer made in a pressure cooker",
+    type: "Sweet",
+    region: "Pan-Indian",
+    channel: "Home cook upload",
+    whistles: 2
+  },
+  {
+    id: "2gOgoXK7xA0",
+    title: "Gajar halwa (carrot halwa) made in a pressure cooker",
+    type: "Sweet",
+    region: "North Indian",
+    channel: "Sanjeev Kapoor Khazana",
+    whistles: 2
+  }
+];
+
+const VIDEO_TO_DISH = {
+  "yLZVOBSpeIk": "rajma-kidney-beans",
+  "7zX_Ufcfj3s": "chicken-curry-bone-in",
+  "StByQdzsyy4": "chicken-biryani-dum",
+  "Ogf8bfFMM6E": "toor-dal-arhar-dal",
+  "CF00AwXuV0c": "khichdi-moong-dal-rice",
+  "uKUvtyjw8R0": "chole-chickpeas",
+  "8Vj1aUS3b_0": "nadan-kozhi-curry-kerala-chicken-curry",
+  "wjBL9_sdlOY": "kadala-curry-kerala-black-chickpeas",
+  "JFXnk2d0OP0": "kerala-beef-curry-ularthiyathu-style",
+  "lgNAUMbZP7s": "kappa-tapioca",
+  "rx4GkGonZN8": "meen-curry-kerala-fish-curry",
+  "wIQuyWGYJdE": "kerala-matta-rice",
+  "tysNFFhctgQ": "avial-aviyal",
+  "dWs6NFM2Myg": "varutharacha-sambar-kerala-style",
+  "i0SauKgFOW0": "erissery-pumpkin-moong-dal",
+  "7NH9F74bqew": "kerala-duck-curry-tharavu-curry",
+  "pRughSKa-Xk": "kerala-prawns-curry-chemmeen-curry",
+  "xrfTYG77ACY": "kerala-mutton-curry",
+  "EjDGNqHFviA": "chicken-mandi-kerala-style",
+  "3ph2Yv2tuOE": "chicken-majboos-kerala-style",
+  "hQZaukf_bZc": "chicken-madhbi-kerala-style",
+  "oIeuWGHVH94": "beef-biryani-kerala-style",
+  "m2tnnZIpH-E": "chicken-kabsa-kerala-style",
+  "HK060uuS66c": "thareed-kerala-style",
+  "88d3NExtyMc": "boiled-eggs",
+  "kVMoGDaW33w": "boiled-potatoes-plain",
+  "piEiHa-gaTc": "butter-chicken",
+  "CrGpv_BgFE0": "paneer-butter-masala",
+  "G8yC4gvn6MU": "pav-bhaji",
+  "H5-3DPofaA0": "misal-matki-usal",
+  "RJSzAgYb2_k": "bisi-bele-bath",
+  "zFOgPZUpmds": "ven-pongal",
+  "80_2APN3gs0": "gujarati-dal",
+  "POvfezdZiOo": "undhiyu",
+  "rjzvAXnvS0Q": "egg-curry",
+  "okIboExzPgY": "egg-biryani",
+  "Cz8QaYUXUD8": "kheer-rice-pudding",
+  "2gOgoXK7xA0": "gajar-halwa-carrot-halwa"
+};
+
+function loadVideo(el){
+  const id = el.dataset.id;
+  el.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" title="video" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+}
+
+const grid = document.getElementById('grid');
+const search = document.getElementById('search');
+const filtersEl = document.getElementById('filters');
+const regionSelect = document.getElementById('region-select');
+const countLabel = document.getElementById('count-label');
+
+const TYPES = ["All", "Veg", "Non-Veg", "Egg", "Sweet"];
+const REGIONS = ["All Regions", ...new Set(VIDEOS.map(v => v.region))];
+let activeType = "All";
+let activeRegion = "All Regions";
+
+function renderFilters(){
+  filtersEl.innerHTML = TYPES.map(t =>
+    `<button class="filter-btn ${t===activeType?'active':''}" data-type="${t}">${t}</button>`
+  ).join('');
+  filtersEl.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      activeType = btn.dataset.type;
+      renderFilters();
+      renderGrid();
+    });
+  });
+
+  regionSelect.innerHTML = REGIONS.map(r =>
+    `<option value="${r}" ${r===activeRegion?'selected':''}>${r}</option>`
+  ).join('');
+}
+
+function renderGrid(){
+  const q = search.value.trim().toLowerCase();
+  const filtered = VIDEOS.filter(v => {
+    const matchesType = activeType === "All" || v.type === activeType;
+    const matchesRegion = activeRegion === "All Regions" || v.region === activeRegion;
+    const matchesQ = !q || v.title.toLowerCase().includes(q) || v.region.toLowerCase().includes(q) || v.channel.toLowerCase().includes(q);
+    return matchesType && matchesRegion && matchesQ;
+  });
+  countLabel.textContent = `${filtered.length} VIDEO${filtered.length===1?'':'S'}`;
+
+  if(filtered.length === 0){
+    grid.innerHTML = `<div class="empty-state">No videos match that search yet.</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(v => {
+    const dishSlug = VIDEO_TO_DISH[v.id];
+    const dishLink = dishSlug ? `<a class="vcard-link" href="${dishSlug}.html">View dish details →</a>` : '';
+    return `
+    <div class="vcard">
+      <div class="vcard-embed" data-id="${v.id}" onclick="loadVideo(this)">
+        <img class="vcard-thumb" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy">
+        <div class="vcard-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+      <div class="vcard-body">
+        <div class="vcard-cat">${v.type} — ${v.region}</div>
+        <div class="vcard-title display">${v.title}</div>
+        <div class="vcard-meta">
+          <span>${v.channel}</span>
+          <span class="vcard-whistles">${v.whistles} whistle${v.whistles===1?'':'s'}</span>
+        </div>
+        ${dishLink}
+      </div>
+    </div>
+  `;
+  }).join('');
+}
+
+search.addEventListener('input', renderGrid);
+regionSelect.addEventListener('change', ()=>{
+  activeRegion = regionSelect.value;
+  renderGrid();
+});
+renderFilters();
+renderGrid();
+</script>
+
+</body>
+</html>

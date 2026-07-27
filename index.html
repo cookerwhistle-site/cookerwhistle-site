@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CookerWhistle — How Many Whistles for Your Dish?</title>
+<meta name="description" content="Find the exact number of pressure cooker whistles needed for Indian dishes — dal, rice, meat, rajma, biryani, Kerala and regional recipes, and more.">
+<link rel="canonical" href="https://cookerwhistle.com/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="CookerWhistle — How Many Whistles for Your Dish?">
+<meta property="og:description" content="Find the exact number of pressure cooker whistles needed for Indian dishes — dal, rice, meat, rajma, biryani, Kerala and regional recipes, and more.">
+<meta property="og:url" content="https://cookerwhistle.com/">
+<meta property="og:image" content="https://cookerwhistle.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CookerWhistle — How Many Whistles for Your Dish?">
+<meta name="twitter:description" content="Find the exact number of pressure cooker whistles needed for Indian dishes.">
+<meta name="twitter:image" content="https://cookerwhistle.com/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "CookerWhistle",
+  "url": "https://cookerwhistle.com/",
+  "description": "A reference for how many pressure cooker whistles each Indian dish needs."
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="brand"><span class="brand-dot"></span>CookerWhistle</div>
+    <nav><a href="index.html" class="active">Whistle Bank</a><a href="videos.html">Videos</a></nav>
+  </div>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Pressure gauge, decoded</div>
+    <h1>How many <em>whistles</em><br>does your dish need?</h1>
+    <p>A quick reference for Indian home cooking — dal, rice, rajma, biryani, curries, and regional dishes from Kerala to Gujarat. Built from how Indian kitchens actually count whistles, not fixed minutes.</p>
+
+    <div class="search-wrap">
+      <input id="search" type="text" placeholder="Search a dish — try 'rajma' or 'chicken'" autocomplete="off">
+      <div class="search-hint">// counts assume medium flame, standard 3–5L cooker. adjust ±1 for size, altitude, quantity.</div>
+    </div>
+  </div>
+
+  <div class="gauge-deco" aria-hidden="true">
+    <svg viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#4A5158" stroke-width="1"/>
+      <circle cx="100" cy="100" r="74" fill="none" stroke="#4A5158" stroke-width="1"/>
+      <g stroke="#6B7278" stroke-width="2">
+        <line x1="100" y1="8" x2="100" y2="20"/>
+        <line x1="100" y1="180" x2="100" y2="192"/>
+        <line x1="8" y1="100" x2="20" y2="100"/>
+        <line x1="180" y1="100" x2="192" y2="100"/>
+      </g>
+      <line x1="100" y1="100" x2="145" y2="58" stroke="#E4B94F" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="100" cy="100" r="6" fill="#E4B94F"/>
+    </svg>
+  </div>
+
+  <div class="filters-row">
+    <div class="filters" id="filters"></div>
+    <select class="region-select" id="region-select"></select>
+  </div>
+</header>
+
+<main>
+  <div class="grid-meta">
+    <h2>The whistle bank</h2>
+    <div id="count-label" class="mono"></div>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div>CookerWhistle.com — a hobby reference, not a recipe book.</div>
+  <div>Built by <a href="https://www.instagram.com/jstnthormallu" target="_blank" rel="noopener" style="color:#E4B94F;">@jstnthormallu</a> — one whistle at a time.</div>
+</footer>
+
+<script>
+const DISHES = [
+  {name:"Toor Dal / Arhar Dal", type:"Veg", region:"North Indian", whistles:3, soak:"None", water:"1:3 (dal:water)", note:"3 whistles gives soft, mashable dal for tempering."},
+  {name:"Moong Dal (split)", type:"Veg", region:"North Indian", whistles:2, soak:"None", water:"1:3", note:"Cooks fast — 3+ whistles turns it to mush."},
+  {name:"Masoor Dal", type:"Veg", region:"North Indian", whistles:2, soak:"None", water:"1:3", note:"Very quick-cooking red lentil."},
+  {name:"Chana Dal", type:"Veg", region:"North Indian", whistles:4, soak:"30 min", water:"1:2.5", note:"Needs more whistles than toor/moong — it's firmer."},
+  {name:"Urad Dal (whole, sabut)", type:"Veg", region:"North Indian", whistles:5, soak:"2–4 hrs", water:"1:3", note:"Base for dal makhani — long simmer after, too."},
+
+  {name:"Plain White Rice", type:"Veg", region:"Pan-Indian", whistles:2, soak:"None", water:"1:1.5", note:"2 whistles + rest = fluffy separate grains."},
+  {name:"Jeera Rice", type:"Veg", region:"North Indian", whistles:2, soak:"15 min", water:"1:1.5", note:"Same as plain rice, tempering added before sealing."},
+  {name:"Chicken Biryani (dum)", type:"Non-Veg", region:"North Indian", whistles:1, soak:"30 min (rice)", water:"Layered, minimal", note:"Just 1 whistle, then rest 10 min off heat — overcooking ruins the layers."},
+  {name:"Veg Pulao", type:"Veg", region:"North Indian", whistles:2, soak:"20 min", water:"1:1.75", note:"Slightly more water than plain rice for the vegetables."},
+  {name:"Khichdi (moong dal + rice)", type:"Veg", region:"Pan-Indian", whistles:3, soak:"None", water:"1:4", note:"Soft, porridge-style consistency wanted here."},
+
+  {name:"Rajma (kidney beans)", type:"Veg", region:"North Indian", whistles:6, soak:"Overnight (8 hrs)", water:"1:3", note:"Unsoaked rajma can need 10+ whistles — soaking matters most here."},
+  {name:"Chole / Chickpeas", type:"Veg", region:"North Indian", whistles:5, soak:"Overnight", water:"1:3", note:"Add a pinch of soda to speed softening if unsoaked."},
+  {name:"Lobia (black-eyed peas)", type:"Veg", region:"North Indian", whistles:3, soak:"2 hrs", water:"1:3", note:"Softens quicker than rajma or chole."},
+  {name:"Soya Chunks", type:"Veg", region:"North Indian", whistles:1, soak:"None (rehydrate in hot water)", water:"1:3", note:"Already soft — over-pressuring makes them rubbery."},
+
+  {name:"Chicken Curry (bone-in)", type:"Non-Veg", region:"North Indian", whistles:3, soak:"—", water:"As per gravy", note:"3 whistles for bone-in; 2 is enough for boneless."},
+  {name:"Mutton Curry", type:"Non-Veg", region:"North Indian", whistles:7, soak:"Marinate 1+ hr", water:"As per gravy", note:"Tender mutton needs a longer pressure hold, not just more whistles at high flame."},
+  {name:"Keema (minced meat)", type:"Non-Veg", region:"North Indian", whistles:3, soak:"—", water:"As per gravy", note:"Cooks faster than curry-cut mutton."},
+  {name:"Fish Curry", type:"Non-Veg", region:"Pan-Indian", whistles:1, soak:"—", water:"As per gravy", note:"Fish overcooks fast — 1 whistle, sometimes even cooked open."},
+
+  {name:"Whole Potatoes (for aloo dishes)", type:"Veg", region:"Pan-Indian", whistles:3, soak:"None", water:"Cover halfway", note:"3 whistles for medium potatoes, skin-on."},
+  {name:"Whole Beetroot", type:"Veg", region:"Pan-Indian", whistles:4, soak:"None", water:"Cover halfway", note:"Needs more whistles than potato due to density."},
+  {name:"Mixed Vegetable Sabzi", type:"Veg", region:"Pan-Indian", whistles:2, soak:"None", water:"Minimal, just for steam", note:"Keep it low so vegetables don't turn mushy."},
+  {name:"Baingan (whole, for bharta)", type:"Veg", region:"Pan-Indian", whistles:2, soak:"None", water:"Minimal", note:"Some cooks prefer open-flame roasting instead for smokiness."},
+
+  {name:"Sambar", type:"Veg", region:"South Indian", whistles:3, soak:"None", water:"1:3 (toor dal base)", note:"Cook dal separately to 3 whistles, vegetables added after."},
+  {name:"Dal Makhani (final dish)", type:"Veg", region:"North Indian", whistles:5, soak:"Urad + rajma soaked overnight", water:"1:3.5", note:"Long simmer after pressure cooking is what makes it rich."},
+
+  {name:"Nadan Kozhi Curry (Kerala Chicken Curry)", type:"Non-Veg", region:"Kerala", whistles:3, soak:"—", water:"As per gravy", note:"Same whistle range as regular chicken curry — the difference is in the coconut and spice base, not the pressure time."},
+  {name:"Kadala Curry (Kerala Black Chickpeas)", type:"Veg", region:"Kerala", whistles:4, soak:"Overnight", water:"1:3", note:"Classic side for puttu and appam — needs about as many whistles as chana."},
+  {name:"Kerala Beef Curry (Ularthiyathu style)", type:"Non-Veg", region:"Kerala", whistles:6, soak:"—", water:"As per gravy", note:"Beef is cooked soft in the cooker first, then often roasted dry afterward for the ularthiyathu finish."},
+  {name:"Kappa (Tapioca)", type:"Veg", region:"Kerala", whistles:2, soak:"None", water:"Cover the pieces", note:"Cooked until soft enough to mash for kappa puzhukku."},
+  {name:"Meen Curry (Kerala Fish Curry)", type:"Non-Veg", region:"Kerala", whistles:1, soak:"—", water:"As per gravy", note:"Fish is delicate — many cooks skip the cooker entirely and simmer it open instead."},
+  {name:"Kerala Matta Rice", type:"Veg", region:"Kerala", whistles:4, soak:"30–60 min", water:"1:2.5", note:"Needs more whistles and water than regular white rice since it's an unpolished, parboiled grain."},
+  {name:"Avial (Aviyal)", type:"Veg", region:"Kerala", whistles:1, soak:"None", water:"Minimal, just for steam", note:"Mixed vegetables and coconut — many cooks use just 1 whistle or skip pressure entirely to keep the vegetables from turning mushy."},
+  {name:"Varutharacha Sambar (Kerala Style)", type:"Veg", region:"Kerala", whistles:3, soak:"None", water:"1:3 (dal base)", note:"Same whistle count as regular sambar — the roasted coconut-spice paste is what sets this apart, not the cooking time."},
+  {name:"Erissery (Pumpkin & Moong Dal)", type:"Veg", region:"Kerala", whistles:2, soak:"None", water:"1:2.5", note:"Pumpkin and moong dal both cook fast, so it needs fewer whistles than a tougher legume-based curry."},
+  {name:"Kerala Duck Curry (Tharavu Curry)", type:"Non-Veg", region:"Kerala", whistles:5, soak:"—", water:"As per gravy", note:"Duck is tougher than chicken, so it needs noticeably more whistles to turn tender."},
+  {name:"Kerala Prawns Curry (Chemmeen Curry)", type:"Non-Veg", region:"Kerala", whistles:0, soak:"—", water:"As per gravy", note:"Prawns cook in minutes — most cooks make this in an open pan with no pressure at all."},
+  {name:"Kerala Mutton Curry", type:"Non-Veg", region:"Kerala", whistles:6, soak:"—", water:"As per gravy", note:"Same range as regular mutton curry — coconut and curry leaves define the Kerala style, not the whistle count."},
+
+  {name:"Chicken Mandi (Kerala Style)", type:"Non-Veg", region:"Arabic (Kerala Style)", whistles:1, soak:"Rice soaked 20–30 min", water:"Layered, minimal", note:"Cooked dum-style like biryani — 1 whistle, then rest off heat. The smoky flavor traditionally comes from an oven or coals, adapted here for a stovetop cooker."},
+  {name:"Chicken Majboos (Kerala Style)", type:"Non-Veg", region:"Arabic (Kerala Style)", whistles:1, soak:"Rice soaked 20–30 min", water:"Layered, minimal", note:"Very similar handling to mandi and biryani — rice and chicken cooked together for just 1 whistle."},
+  {name:"Chicken Madhbi (Kerala Style)", type:"Non-Veg", region:"Arabic (Kerala Style)", whistles:1, soak:"Rice soaked 20–30 min", water:"Layered, minimal", note:"Traditionally grilled over hot stones or charcoal — home versions use the pressure cooker for the rice and chicken, then finish with a quick smoking step for flavor."},
+  {name:"Beef Biryani (Kerala Style)", type:"Non-Veg", region:"Arabic (Kerala Style)", whistles:3, soak:"Rice soaked 20–30 min", water:"Layered, minimal", note:"Beef is partly cooked down first since it's tougher than chicken, then layered with rice for a short final dum."},
+  {name:"Chicken Kabsa (Kerala Style)", type:"Non-Veg", region:"Arabic (Kerala Style)", whistles:1, soak:"Rice soaked 30–45 min", water:"Layered, minimal", note:"Handled much like mandi and biryani in a Kerala kitchen — chicken and rice cooked together for a single whistle."},
+  {name:"Thareed (Kerala Style)", type:"Non-Veg", region:"Arabic (Kerala Style)", whistles:3, soak:"—", water:"As per stew", note:"A bread-and-meat stew rather than a rice dish — the cooker is used mainly to soften the meat and vegetables into a thick, stew-like consistency."},
+
+  {name:"Boiled Eggs", type:"Egg", region:"Pan-Indian", whistles:2, soak:"None", water:"Cover the eggs", note:"2 whistles gives a firm, fully-set yolk. Drop to 1 for a slightly softer center."},
+  {name:"Boiled Potatoes (plain)", type:"Veg", region:"Pan-Indian", whistles:3, soak:"None", water:"Cover the potatoes", note:"3 whistles works for medium potatoes meant for salads, chaat, or mashing — skin-on keeps them from waterlogging."},
+  {name:"Butter Chicken", type:"Non-Veg", region:"North Indian", whistles:0, soak:"Marinate 30+ min", water:"As per gravy", note:"Most versions don't use a pressure cooker at all — chicken is grilled or pan-seared, then simmered in the butter-tomato sauce. Some quick home versions do pressure cook the chicken briefly first."},
+  {name:"Paneer Butter Masala", type:"Veg", region:"North Indian", whistles:0, soak:"—", water:"As per gravy", note:"Paneer is soft already and doesn't need pressure — it's simmered directly in the sauce. The cooker is sometimes used just to quickly cook down the tomato-onion base."},
+  {name:"Pav Bhaji", type:"Veg", region:"Maharashtra", whistles:3, soak:"None", water:"Cover the vegetables", note:"Mixed vegetables are cooked soft enough to mash — potato, cauliflower, and peas all go in together."},
+  {name:"Misal (Matki Usal)", type:"Veg", region:"Maharashtra", whistles:3, soak:"Sprouted 1–2 days, then soaked", water:"1:2.5", note:"Made with sprouted moth beans (matki) — the sprouting is what cuts down the whistle count compared to dry legumes."},
+  {name:"Bisi Bele Bath", type:"Veg", region:"Karnataka", whistles:3, soak:"None", water:"1:4 (rice+dal+veg)", note:"Rice, dal, and vegetables all go in together, so it needs a bit more water than plain rice or dal alone."},
+  {name:"Ven Pongal", type:"Veg", region:"Tamil Nadu", whistles:3, soak:"None", water:"1:4.5 (rice+moong dal)", note:"Deliberately cooked soft and mushy — more water and a similar whistle count to khichdi."},
+  {name:"Gujarati Dal", type:"Veg", region:"Gujarat", whistles:3, soak:"None", water:"1:3", note:"Same whistle range as toor dal elsewhere — the sweet-and-tangy jaggery-kokum flavor is added after, not during, pressure cooking."},
+  {name:"Undhiyu", type:"Veg", region:"Gujarat", whistles:2, soak:"None", water:"Minimal, just for steam", note:"A mix of winter vegetables and methi dumplings — kept to fewer whistles so the vegetables hold their shape."},
+  {name:"Egg Curry", type:"Egg", region:"Pan-Indian", whistles:1, soak:"—", water:"As per gravy", note:"Eggs are boiled separately first; the 1 whistle here is mainly for quickly cooking down the onion-tomato gravy."},
+  {name:"Egg Biryani", type:"Egg", region:"Pan-Indian", whistles:1, soak:"Rice soaked 20–30 min", water:"Layered, minimal", note:"Handled dum-style like other biryanis — 1 whistle, then rest, with boiled eggs layered in at the end."},
+
+  {name:"Kheer (Rice Pudding)", type:"Sweet", region:"Pan-Indian", whistles:2, soak:"None", water:"1:6 (rice:milk)", note:"2 whistles softens the rice fully before it's simmered down with milk and sugar to a creamy consistency."},
+  {name:"Gajar Halwa (Carrot Halwa)", type:"Sweet", region:"North Indian", whistles:2, soak:"None", water:"Just enough to prevent sticking", note:"A couple of whistles softens the grated carrot fast, before it's cooked down with milk and sugar into halwa."},
+];
+
+function slugify(name){
+  let s = name.toLowerCase();
+  s = s.replace(/[()\/]/g, "");
+  s = s.replace(/[^a-z0-9]+/g, "-");
+  s = s.replace(/^-+|-+$/g, "");
+  return s;
+}
+
+const grid = document.getElementById('grid');
+const search = document.getElementById('search');
+const filtersEl = document.getElementById('filters');
+const regionSelect = document.getElementById('region-select');
+const countLabel = document.getElementById('count-label');
+
+const TYPES = ["All", "Veg", "Non-Veg", "Egg", "Sweet"];
+const REGIONS = ["All Regions", ...new Set(DISHES.map(d => d.region))];
+let activeType = "All";
+let activeRegion = "All Regions";
+
+function dialSVG(count){
+  const max = 8;
+  const pct = Math.min(count / max, 1);
+  const circumference = 2 * Math.PI * 26;
+  const offset = circumference * (1 - pct);
+  return `
+  <svg viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="26" fill="none" stroke="#D8D1BF" stroke-width="4"/>
+    <circle cx="32" cy="32" r="26" fill="none" stroke="#C79A3E" stroke-width="4"
+      stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"
+      stroke-linecap="round" transform="rotate(-90 32 32)"/>
+  </svg>`;
+}
+
+function renderFilters(){
+  filtersEl.innerHTML = TYPES.map(t =>
+    `<button class="filter-btn ${t===activeType?'active':''}" data-type="${t}">${t}</button>`
+  ).join('');
+  filtersEl.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      activeType = btn.dataset.type;
+      renderFilters();
+      renderGrid();
+    });
+  });
+
+  regionSelect.innerHTML = REGIONS.map(r =>
+    `<option value="${r}" ${r===activeRegion?'selected':''}>${r}</option>`
+  ).join('');
+}
+
+function renderGrid(){
+  const q = search.value.trim().toLowerCase();
+  const filtered = DISHES.filter(d=>{
+    const matchesType = activeType === "All" || d.type === activeType;
+    const matchesRegion = activeRegion === "All Regions" || d.region === activeRegion;
+    const matchesQ = !q || d.name.toLowerCase().includes(q) || d.region.toLowerCase().includes(q);
+    return matchesType && matchesRegion && matchesQ;
+  });
+
+  countLabel.textContent = `${filtered.length} DISH${filtered.length===1?'':'ES'}`;
+
+  if(filtered.length === 0){
+    grid.innerHTML = `<div class="empty-state">No dish matches that search yet — try a different name, or check back as the bank grows.</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(d => `
+    <a class="card" href="${slugify(d.name)}.html">
+      <div class="card-link">
+        <div class="card-top">
+          <div>
+            <div class="card-cat">${d.type} — ${d.region}</div>
+            <div class="card-name display">${d.name}</div>
+          </div>
+          <div class="dial">
+            ${dialSVG(d.whistles)}
+            <div class="dial-num">${d.whistles}</div>
+          </div>
+        </div>
+        <div class="card-details">
+          <div class="row"><span class="label">Soaking</span><span>${d.soak}</span></div>
+          <div class="row"><span class="label">Water ratio</span><span>${d.water}</span></div>
+        </div>
+        <div class="card-note">${d.note}</div>
+      </div>
+    </a>
+  `).join('');
+}
+
+search.addEventListener('input', renderGrid);
+regionSelect.addEventListener('change', ()=>{
+  activeRegion = regionSelect.value;
+  renderGrid();
+});
+renderFilters();
+renderGrid();
+</script>
+
+</body>
+</html>
