@@ -58,6 +58,15 @@ header{
 }
 .topbar nav a{color:#B9BEC3;transition:color 0.15s ease;}
 .topbar nav a:hover, .topbar nav a.active{color:var(--brass-bright);}
+.nav-cta{
+  background:var(--brass-bright);
+  color:var(--steel-dark) !important;
+  padding:8px 16px;
+  border-radius:2px;
+  font-weight:700;
+  transition:background 0.15s ease;
+}
+.nav-cta:hover{background:#F2C864;color:var(--steel-dark) !important;}
 
 .hero, .page-hero{
   padding:8vh 6vw 8vh;
